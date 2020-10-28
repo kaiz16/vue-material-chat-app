@@ -52,7 +52,6 @@
 </template>
 
 <script>
-/*eslint-disable*/
 import UserMessage from './UserMessage'
 import AddMessage from './AddMessage'
 import io from "socket.io-client";
@@ -75,6 +74,7 @@ export default {
     this.messages = data;
   },
   created() {
+    // Socket.io topics
     socket.on("incomingNewMessage", (message) => {
       this.messages.push(message);
       this.$nextTick(() => {

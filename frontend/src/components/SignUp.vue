@@ -68,6 +68,10 @@ export default {
   width: 100%;
   height: 100vh;
 }
+
+.md-card{
+  width: 50%
+}
 .navbar-custom {
   display: flex;
   flex-direction: row;
