@@ -2,7 +2,7 @@
   <div class="md-layout">
     <div class="md-layout-item msg" :class="{'is-me': isMe}" v-if="isMe">
         <p class="text">{{message.text}}</p>
-        <p class="date">{{transformDateAndTime(message.created_at)}}</p>
+        <p class="date">{{transformDateAndTime(message.createdAt)}}</p>
     </div>
     <div class="md-layout-item avatar">
       <md-avatar class="md-avatar-icon md-accent">
