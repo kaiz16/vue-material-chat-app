@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
-async function connectToMongoDB(){
+async function connectToMongoDB() {
     // Connecting to Mongo DB
     await mongoose.connect(process.env.MongoDB,
         // using new features from mongodb

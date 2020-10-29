@@ -1,20 +1,18 @@
 <template>
   <div id="app">
-    <SignUp 
-      v-if="isVerified == false"
-      @loginSuccess="isVerified = true"/>
-    <Chats v-else @loggedOut="isVerified = false"/>
+    <SignUp v-if="isVerified == false" @loginSuccess="isVerified = true" />
+    <Chats v-else @loggedOut="isVerified = false" />
   </div>
 </template>
 
 <script>
-import SignUp from './components/SignUp';
-import Chats from './components/Chats';
+import SignUp from "./components/SignUp";
+import Chats from "./components/Chats";
 export default {
   name: "App",
   components: {
     SignUp,
-    Chats
+    Chats,
   },
   data() {
     return {
@@ -32,7 +30,7 @@ export default {
       } else {
         this.isVerified = false;
       }
-    }
+    },
   },
 };
 </script>

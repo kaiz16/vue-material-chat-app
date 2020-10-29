@@ -1,5 +1,5 @@
 <template>
-    <div class="md-layout md-alignment-center">
+  <div class="md-layout md-alignment-center">
     <VEmojiPicker
       v-show="showDiag"
       labelSearch="Search"
@@ -17,49 +17,54 @@
         <md-input v-model="msg"></md-input>
       </md-field>
     </div>
-     <div class="md-layout-item send">
+    <div class="md-layout-item send">
       <md-button class="md-icon-button" @click="sendMessage">
         <md-icon>send</md-icon>
       </md-button>
     </div>
-</div>
-  
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import io from "socket.io-client";
 const socket = io.connect("http://localhost:5000");
+import tokenConfig from "../auth";
 export default {
-  data(){
+  data() {
     return {
-      msg: '',
-      showDiag: false
-    }
+      msg: "",
+      showDiag: false,
+    };
   },
   methods: {
-    selectEmoji(emoji){
-      this.msg += emoji.data
+    selectEmoji(emoji) {
+      this.msg += emoji.data;
     },
     async sendMessage() {
-      if (!this.msg) return
-        const { data } = await axios.post("http://localhost:5000/api/messages/create", {
+      if (!this.msg) return;
+      const { data } = await axios.post(
+        "http://localhost:5000/api/messages/create",
+        {
           userName: sessionStorage.getItem("userName"),
           text: this.msg,
-        });
+        },
+        tokenConfig()
+      );
 
-        this.msg = '';
-        socket.emit("newMessage", data);
-    }
-  }
-}
+      this.msg = "";
+      socket.emit("newMessage", data);
+    },
+  },
+};
 </script>
 
 <style scoped>
-.emoji, .send{
+.emoji,
+.send {
   flex: 0 0;
 }
-#EmojiPicker{
+#EmojiPicker {
   position: absolute;
   top: 0;
   left: 0;

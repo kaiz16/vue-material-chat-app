@@ -5,17 +5,21 @@
     </md-card-header>
 
     <md-card-content>
+      <!-- User Name -->
       <md-field>
         <label>Your username</label>
         <md-input v-model="userName"></md-input>
       </md-field>
-
+      <!-- Password -->
+      <md-field>
+        <label>Your Password</label>
+        <md-input v-model="password" type="password"></md-input>
+      </md-field>
       <md-card class="md-accent" v-if="error">
         <md-card-content>
           <p class="md-accent">Something went wront</p>
         </md-card-content>
       </md-card>
-      
     </md-card-content>
 
     <md-card-actions>
@@ -31,32 +35,47 @@ export default {
   data() {
     return {
       userName: null,
-      error: null
+      password: null,
+      error: null,
     };
   },
   methods: {
     async signUp() {
-      if (!this.userName) return
+      if (!this.userName || !this.password) return;
       try {
-        const { data } = await axios.post("http://localhost:5000/api/users/create", {
-          userName: this.userName,
-        });
+        const { data } = await axios.post(
+          "http://localhost:5000/api/users/create",
+          {
+            userName: this.userName,
+            password: this.password,
+          }
+        );
+        console.log(data);
         sessionStorage.setItem("userName", data.userName);
-        this.$emit('loginSuccess')
-      } catch(err) {
-        this.error = "Something went wrong"
-        console.error(err)
+        sessionStorage.setItem("token", data.token);
+        this.$emit("loginSuccess");
+      } catch (err) {
+        this.error = "Something went wrong";
+        console.error(err);
       }
     },
     async signIn() {
-      if (!this.userName) return
+      if (!this.userName || !this.password) return;
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/users/${this.userName}`);
+        const { data } = await axios.post(
+          "http://localhost:5000/api/users/login",
+          {
+            userName: this.userName,
+            password: this.password,
+          }
+        );
+        console.log(data);
         sessionStorage.setItem("userName", data.userName);
-        this.$emit('loginSuccess')
+        sessionStorage.setItem("token", data.token);
+        this.$emit("loginSuccess");
       } catch (err) {
-        this.error = "Something went wrong"
-        console.error(err)
+        this.error = "Something went wrong";
+        console.error(err);
       }
     },
   },
@@ -64,63 +83,7 @@ export default {
 </script>
 
 <style>
-.main {
-  width: 100%;
-  height: 100vh;
-}
-
-.md-card{
-  width: 50%
-}
-.navbar-custom {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-right: 5vw;
-  width: 100%;
-  height: 15vh;
-  align-items: center;
-  background-color: #090a29;
-}
-.nav-item {
-  color: aliceblue;
-  margin-left: 5vw;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 20px;
-}
-.nav-item:hover {
-  color: aqua;
-}
-.custom {
-  margin: auto auto;
-  margin-top: 25vh;
+.md-card {
   width: 50%;
-  padding: 40px 10px 10px 10px;
-  text-align: center;
-  box-shadow: 5px 5px 10px 2px grey;
-}
-.inp {
-  text-align: center;
-  margin: 0px auto;
-  width: 80%;
-}
-.alert {
-  margin-top: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-@media only screen and (max-width: 790px) {
-  .inp,
-  .custom {
-    width: 90%;
-  }
-  .navbar-custom {
-    justify-content: space-around;
-  }
-  .nav-item {
-    font-size: 16px;
-  }
 }
 </style>

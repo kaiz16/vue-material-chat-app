@@ -1,18 +1,19 @@
 <template>
   <div class="md-layout">
-    <div class="md-layout-item msg" :class="{'is-me': isMe}" v-if="isMe">
-        <p class="text">{{message.text}}</p>
-        <p class="date">{{transformDateAndTime(message.createdAt)}}</p>
+    <div class="md-layout-item msg" :class="{ 'is-me': isMe }" v-if="isMe">
+      <p class="text">{{ message.text }}</p>
+      <p class="date">{{ transformDateAndTime(message.createdAt) }}</p>
     </div>
     <div class="md-layout-item avatar">
       <md-avatar class="md-avatar-icon md-accent">
-        {{message.userName[0].toUpperCase()}}
+        {{ message.userName[0].toUpperCase() }}
       </md-avatar>
-      <p>{{message.userName}}</p>
+      <p>{{ message.userName }}</p>
     </div>
+
     <div class="md-layout-item msg" v-if="!isMe">
-        <p class="text">{{message.text}}</p>
-        <p class="date">{{transformDateAndTime(message.created_at)}}</p>
+      <p class="text">{{ message.text }}</p>
+      <p class="date">{{ transformDateAndTime(message.created_at) }}</p>
     </div>
   </div>
 </template>
@@ -26,18 +27,18 @@ export default {
   props: {
     message: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data(){
+  data() {
     return {
-      userName: sessionStorage.getItem('userName')
-    }
+      userName: sessionStorage.getItem("userName"),
+    };
   },
   computed: {
-    isMe(){
-      return this.message.userName == this.userName
-    }
+    isMe() {
+      return this.message.userName == this.userName;
+    },
   },
   methods: {
     transformDateAndTime(string) {
@@ -53,18 +54,17 @@ export default {
 };
 </script>
 <style scoped>
-.avatar{
+.avatar {
   flex: 0 0;
   text-align: center;
 }
 
-.msg{
+.msg {
   display: flex;
   flex-direction: column;
-  
 }
 
-.msg .text{
+.msg .text {
   background: #f6f6f6;
   border-radius: 12px;
   margin: 0 15px 10px 15px;
@@ -73,12 +73,12 @@ export default {
   color: #000;
 }
 
-.is-me{
+.is-me {
   display: flex;
   align-items: flex-end;
 }
 
-.msg .date{
+.msg .date {
   margin: 0 15px 10px 15px;
 }
 </style>

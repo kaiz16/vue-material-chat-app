@@ -1,14 +1,14 @@
 const router = require('express').Router()
 const Schema = require('../Models')
-
+const verifyToken = require('../middleware/verifyToken')
 // Getting all the messages
-router.get('/', (req, res) => {
+router.get('/', verifyToken, (req, res) => {
     Schema.messages.find()
         .then(messages => res.json(messages))
         .catch(err => res.status(400).json(err))
 })
 // Creating a message
-router.post('/create', (req, res) => {
+router.post('/create', verifyToken, (req, res) => {
     const newMessage = new Schema.messages({
         userName: req.body.userName,
         text: req.body.text
