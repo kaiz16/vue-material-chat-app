@@ -20,7 +20,7 @@
 
 <script>
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect(process.env.VUE_APP_API);
 import moment from "moment-timezone";
 import axios from "axios";
 export default {

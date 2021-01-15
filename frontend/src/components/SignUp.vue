@@ -44,7 +44,7 @@ export default {
       if (!this.userName || !this.password) return;
       try {
         const { data } = await axios.post(
-          "http://localhost:5000/api/users/create",
+          process.env.VUE_APP_API + "/api/users/create",
           {
             userName: this.userName,
             password: this.password,
@@ -63,7 +63,7 @@ export default {
       if (!this.userName || !this.password) return;
       try {
         const { data } = await axios.post(
-          "http://localhost:5000/api/users/login",
+          process.env.VUE_APP_API + "/api/users/login",
           {
             userName: this.userName,
             password: this.password,

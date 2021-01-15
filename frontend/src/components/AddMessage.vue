@@ -28,7 +28,7 @@
 <script>
 import axios from "axios";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect(process.env.VUE_APP_API);
 import tokenConfig from "../auth";
 export default {
   data() {
@@ -44,7 +44,7 @@ export default {
     async sendMessage() {
       if (!this.msg) return;
       const { data } = await axios.post(
-        "http://localhost:5000/api/messages/create",
+        process.env.VUE_APP_API + "/api/messages/create",
         {
           userName: sessionStorage.getItem("userName"),
           text: this.msg,

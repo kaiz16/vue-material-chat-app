@@ -56,7 +56,7 @@ import io from "socket.io-client";
 import axios from "axios";
 import tokenConfig from "../auth";
 // your server address here
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect(process.env.VUE_APP_API);
 export default {
   components: {
     UserMessage,
@@ -70,7 +70,7 @@ export default {
   },
   async mounted() {
     let { data } = await axios.get(
-      "http://localhost:5000/api/messages",
+      process.env.VUE_APP_API + "/api/messages",
       tokenConfig()
     );
     this.messages = data;
