@@ -1,25 +1,9 @@
 <template>
   <md-app md-waterfall md-mode="fixed">
     <md-app-toolbar class="md-primary">
-      <span class="md-title">Vue Chat App</span>
+      <h3 class="md-title" style="flex: 1">Chat App</h3>
+      <md-button class="md-primary" v-on:click="dialogActive = true">Logout</md-button>
     </md-app-toolbar>
-
-    <md-app-drawer
-      :md-swipeable="true"
-      md-permanent="clipped"
-      md-persistent="mini"
-    >
-      <md-toolbar class="md-transparent" md-elevation="0">
-        Navigation
-      </md-toolbar>
-
-      <md-list>
-        <md-list-item @click="dialogActive = true">
-          <md-icon>power_settings_new</md-icon>
-          <span class="md-list-item-text">Logout</span>
-        </md-list-item>
-      </md-list>
-    </md-app-drawer>
 
     <md-app-content>
       <!-- Logout confirmation dialog hidden at first -->
@@ -42,7 +26,7 @@
       <md-divider class="md-divider"></md-divider>
       <md-content>
         <div class="send-message">
-          <AddMessage />
+          <AddMessage v-on:sentMessage="addMessage"/>
         </div>
       </md-content>
     </md-app-content>
@@ -81,16 +65,13 @@ export default {
   created() {
     // Socket.io topics
     socket.on("incomingNewMessage", (message) => {
-      this.messages.push(message);
-      // this.$nextTick(() => {
-      //   this.scroll();
-      // });
-    });
-    socket.on("messageDeleted", (id) => {
-      this.messages = this.messages.filter(({ _id }) => _id !== id);
+      this.addMessage(message);
     });
   },
   methods: {
+    addMessage(message){
+      this.messages.push(message);
+    },
     scroll() {
       const messages = document.querySelectorAll(".msg-component");
       messages[messages.length - 1].classList.add("last-msg-component");

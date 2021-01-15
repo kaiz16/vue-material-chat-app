@@ -14,7 +14,7 @@
     <div class="md-layout-item">
       <md-field>
         <label>Type here!</label>
-        <md-input v-model="msg"></md-input>
+        <md-input v-model="msg" v-on:keyup.enter="sendMessage"></md-input>
       </md-field>
     </div>
     <div class="md-layout-item send">
@@ -27,8 +27,6 @@
 
 <script>
 import axios from "axios";
-import io from "socket.io-client";
-const socket = io.connect(process.env.VUE_APP_API);
 import tokenConfig from "../auth";
 export default {
   data() {
@@ -43,17 +41,27 @@ export default {
     },
     async sendMessage() {
       if (!this.msg) return;
-      const { data } = await axios.post(
+      // making optimistic response
+      let data = {
+        createdAt: (new Date).toISOString(),
+        text: this.msg,
+        updatedAt: (new Date).toISOString(),
+        userName: sessionStorage.getItem("userName"),
+        _id: (new Date).toISOString()
+      }
+      this.$emit('sentMessage', data)
+      let msg = JSON.stringify(this.msg)
+      this.msg = ''
+      // send to server
+      await axios.post(
         process.env.VUE_APP_API + "/api/messages/create",
         {
           userName: sessionStorage.getItem("userName"),
-          text: this.msg,
+          text: JSON.parse(msg),
         },
         tokenConfig()
       );
-
       this.msg = "";
-      socket.emit("newMessage", data);
     },
   },
 };
