@@ -75,13 +75,16 @@ export default {
     );
     this.messages = data;
   },
+  updated(){
+    this.scroll()
+  },
   created() {
     // Socket.io topics
     socket.on("incomingNewMessage", (message) => {
       this.messages.push(message);
-      this.$nextTick(() => {
-        this.scroll();
-      });
+      // this.$nextTick(() => {
+      //   this.scroll();
+      // });
     });
     socket.on("messageDeleted", (id) => {
       this.messages = this.messages.filter(({ _id }) => _id !== id);

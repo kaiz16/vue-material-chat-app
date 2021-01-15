@@ -13,7 +13,7 @@
 
     <div class="md-layout-item msg" v-if="!isMe">
       <p class="text">{{ message.text }}</p>
-      <p class="date">{{ transformDateAndTime(message.created_at) }}</p>
+      <p class="date">{{ transformDateAndTime(message.createdAt) }}</p>
     </div>
   </div>
 </template>
