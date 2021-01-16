@@ -16,4 +16,4 @@ Socket.io
 https://socket.io/
 
 The link to deployed chat app is here.
-https://thc-chat-app.herokuapp.com
+https://vue-material-chat-app-frontend.herokuapp.com/
