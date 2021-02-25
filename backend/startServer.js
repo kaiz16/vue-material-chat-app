@@ -31,17 +31,25 @@ function startServer(){
     //     })
     // }
     // Using sokcet.io to acheive real time data trafic. 
-    const io = require('socket.io')(server)
+    const io = require('socket.io')(server, {
+        cors: {
+            origin: "*",
+            methods: ["GET", "POST", "PUT", "DELETE"],
+            credentials: true
+        }
+    })
     // on means listen to.
     // so this means on every connection to our server
     io.on('connection', socket => {
-        console.log('User connected with socket')
+        console.log('user connection')
+        io.emit('connected'); 
         socket.on('newMessage', (newMessage) => {
-            socket.broadcast.emit('incomingNewMessage', newMessage)
+            console.log('a message has been sent')
+            io.emit('incomingNewMessage', newMessage)
         })
-        socket.on('deleteMessage', (_id) => {
-            socket.broadcast.emit('messageDeleted', _id)
-        })
+        // socket.on('deleteMessage', (_id) => {
+        //     socket.broadcast.emit('messageDeleted', _id)
+        // })
         // once connection is made you can listen or emit events
         // To listen to an event from frontend use socket.on()
         // To emit and event use socket.emit()
