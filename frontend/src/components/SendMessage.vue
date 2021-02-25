@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import io from "socket.io-client";
+const socket = io.connect(process.env.VUE_APP_API);
 export default {
     data(){
         return {
@@ -64,6 +66,9 @@ export default {
                 }
             )
             this.message = "";
+
+            // finally emit an event to server
+            socket.emit('newMessage', body)
         },
     }
 }
